@@ -1,32 +1,19 @@
 import express, { Request, Response } from 'express'
+import { Producto } from './models/producto'
+import { sequelize } from './db'
 
 const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
 
-interface Producto {
-  id: number
-  nombre: string
-  precio: number
-  cantidad: number
-}
-
-const productos: Producto[] = [
-  { id: 1, nombre: 'Producto 1', precio: 100, cantidad: 10 },
-  { id: 2, nombre: 'Producto 2', precio: 200, cantidad: 20 },
-  { id: 3, nombre: 'Producto 3', precio: 300, cantidad: 30 },
-]
-
-// Endpoints CRUD
-
-app.get('/productos', (req: Request, res: Response) => {
+app.get('/productos', async (req: Request, res: Response) => {
+  const productos = await Producto.findAll()
   res.json(productos)
 })
 
-app.get('/productos/:id', (req: Request, res: Response) => {
-  const id = parseInt(req.params.id)
-  const producto = productos.find((p) => p.id === id)
+app.get('/productos/:id', async (req: Request, res: Response) => {
+  const producto = await Producto.findByPk(req.params.id)
   if (producto) {
     res.json(producto)
   } else {
@@ -34,38 +21,25 @@ app.get('/productos/:id', (req: Request, res: Response) => {
   }
 })
 
-app.post('/productos', (req: Request, res: Response) => {
-  const nuevoProducto: Producto = {
-    id: productos.length + 1,
-    nombre: req.body.nombre,
-    precio: req.body.precio,
-    cantidad: req.body.cantidad,
-  }
-  productos.push(nuevoProducto)
+app.post('/productos', async (req: Request, res: Response) => {
+  const nuevoProducto = await Producto.create(req.body)
   res.status(201).json(nuevoProducto)
 })
 
-app.put('/productos/:id', (req: Request, res: Response) => {
-  const id = parseInt(req.params.id)
-  const productoIndex = productos.findIndex((p) => p.id === id)
-  if (productoIndex !== -1) {
-    productos[productoIndex] = {
-      id: id,
-      nombre: req.body.nombre,
-      precio: req.body.precio,
-      cantidad: req.body.cantidad,
-    }
-    res.json(productos[productoIndex])
+app.put('/productos/:id', async (req: Request, res: Response) => {
+  const producto = await Producto.findByPk(req.params.id)
+  if (producto) {
+    await producto.update(req.body)
+    res.json(producto)
   } else {
     res.status(404).send({ mensaje: 'Producto no encontrado' })
   }
 })
 
-app.delete('/productos/:id', (req: Request, res: Response) => {
-  const id = parseInt(req.params.id)
-  const productoIndex = productos.findIndex((p) => p.id === id)
-  if (productoIndex !== -1) {
-    productos.splice(productoIndex, 1)
+app.delete('/productos/:id', async (req: Request, res: Response) => {
+  const producto = await Producto.findByPk(req.params.id)
+  if (producto) {
+    await producto.destroy()
     res.send({ mensaje: 'Producto eliminado' })
   } else {
     res.status(404).send({ mensaje: 'Producto no encontrado' })
@@ -73,8 +47,10 @@ app.delete('/productos/:id', (req: Request, res: Response) => {
 })
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`)
+  sequelize.sync({ force: true }).then(() => {
+    app.listen(port, () => {
+      console.log(`Servidor escuchando en http://localhost:${port}`)
+    })
   })
 }
 
