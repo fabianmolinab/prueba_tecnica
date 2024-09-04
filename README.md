@@ -1,4 +1,3 @@
-````markdown
 # Proyecto de Servicio RESTful con Node.js y Playwright
 
 Este proyecto es un servicio RESTful simple desarrollado con Node.js y Express que permite realizar operaciones CRUD sobre un recurso llamado "producto". Incluye pruebas automatizadas usando Playwright para garantizar el funcionamiento del servicio. Además, el proyecto está configurado para ejecutarse en un contenedor Docker.
@@ -95,7 +94,6 @@ Este comando ejecutará las pruebas definidas en la carpeta `tests` y generará 
    ```bash
    curl http://localhost:3000/productos
    ```
-````
 
 2. **Agregar un nuevo producto:**
 
@@ -161,3 +159,7 @@ El archivo Dockerfile está configurado para construir una imagen de Docker para
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+```
+
+```
