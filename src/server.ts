@@ -1,11 +1,10 @@
 import express, { Request, Response } from 'express'
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.use(express.json())
 
-// Interfaz para definir un producto
 interface Producto {
   id: number
   nombre: string
@@ -18,6 +17,8 @@ const productos: Producto[] = [
   { id: 2, nombre: 'Producto 2', precio: 200, cantidad: 20 },
   { id: 3, nombre: 'Producto 3', precio: 300, cantidad: 30 },
 ]
+
+// Endpoints CRUD
 
 app.get('/productos', (req: Request, res: Response) => {
   res.json(productos)
@@ -35,7 +36,7 @@ app.get('/productos/:id', (req: Request, res: Response) => {
 
 app.post('/productos', (req: Request, res: Response) => {
   const nuevoProducto: Producto = {
-    id: productos.length + 1, // Generar ID automáticamente
+    id: productos.length + 1,
     nombre: req.body.nombre,
     precio: req.body.precio,
     cantidad: req.body.cantidad,
@@ -71,7 +72,10 @@ app.delete('/productos/:id', (req: Request, res: Response) => {
   }
 })
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`)
+  })
+}
+
+export { app }
