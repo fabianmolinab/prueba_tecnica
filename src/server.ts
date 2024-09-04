@@ -5,17 +5,18 @@ const port = 3000;
 
 app.use(express.json());
 
+// Interfaz para definir un producto
 interface Producto {
     id: number;
     nombre: string;
     precio: number;
+    cantidad: number;
 }
 
-// Simulamos una base de datos en memoria
 let productos: Producto[] = [
-    { id: 1, nombre: 'Producto 1', precio: 100 },
-    { id: 2, nombre: 'Producto 2', precio: 200 },
-    { id: 3, nombre: 'Producto 3', precio: 300 }
+    { id: 1, nombre: 'Producto 1', precio: 100, cantidad: 10 },
+    { id: 2, nombre: 'Producto 2', precio: 200, cantidad: 20 },
+    { id: 3, nombre: 'Producto 3', precio: 300, cantidad: 30 }
 ];
 
 app.get('/productos', (req: Request, res: Response) => {
@@ -34,9 +35,10 @@ app.get('/productos/:id', (req: Request, res: Response) => {
 
 app.post('/productos', (req: Request, res: Response) => {
     const nuevoProducto: Producto = {
-        id: productos.length + 1, // ID auto-generado
+        id: productos.length + 1, // Generar ID automáticamente
         nombre: req.body.nombre,
-        precio: req.body.precio
+        precio: req.body.precio,
+        cantidad: req.body.cantidad
     };
     productos.push(nuevoProducto);
     res.status(201).json(nuevoProducto);
@@ -49,7 +51,8 @@ app.put('/productos/:id', (req: Request, res: Response) => {
         productos[productoIndex] = {
             id: id,
             nombre: req.body.nombre,
-            precio: req.body.precio
+            precio: req.body.precio,
+            cantidad: req.body.cantidad
         };
         res.json(productos[productoIndex]);
     } else {
