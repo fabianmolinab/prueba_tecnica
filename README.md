@@ -157,7 +157,3 @@ El archivo Dockerfile está configurado para construir una imagen de Docker para
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-
-```
-
-```
