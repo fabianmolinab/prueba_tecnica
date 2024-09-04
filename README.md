@@ -23,20 +23,18 @@ Este proyecto es un servicio RESTful simple desarrollado con Node.js y Express q
    Clona el repositorio del proyecto desde GitHub usando el siguiente comando:
 
    ```bash
-   git clone https://github.com/tu-usuario/tu-repositorio.git
+   git clone git@github.com:fabianmolinab/prueba_tecnica.git
    ```
 
-   Reemplaza `tu-usuario/tu-repositorio` con la URL del repositorio del proyecto.
 
 2. **Navegar al Directorio del Proyecto**
 
    Cambia al directorio del proyecto:
 
    ```bash
-   cd nombre-del-repositorio
+   cd prueba_tecnica
    ```
 
-   Reemplaza `nombre-del-repositorio` con el nombre del directorio del proyecto.
 
 3. **Instalar Dependencias**
 
