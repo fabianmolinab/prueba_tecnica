@@ -8,6 +8,7 @@
     "test": "playwright test",
     "test:firefox": "playwright test --project=firefox",
     "lint": "eslint 'src/**/*.{ts,js}' --fix",
+    "report": "playwright show-report test-results/html",
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'"
   },
   "author": "",
